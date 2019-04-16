@@ -1,9 +1,9 @@
 'use strict';
 
 module.exports = {
-  url: 'https://lumen.netlify.com',
-  title: 'Blog by John Doe',
-  subtitle: 'Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu.',
+  url: 'https://alanqingranwang.com',
+  title: 'Blog by Alan Wang',
+  subtitle: 'Reseacher and Musician.',
   copyright: '© All rights reserved.',
   disqusShortname: '',
   postsPerPage: 4,
@@ -23,11 +23,11 @@ module.exports = {
     }
   ],
   author: {
-    name: 'John Doe',
+    name: 'Alan Wang',
     photo: '/photo.jpg',
-    bio: 'Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu.',
+    bio: 'Researcher and Musician.',
     contacts: {
-      email: '#',
+      email: 'alanqingranwang@gmail.com',
       telegram: '#',
       twitter: '#',
       github: '#',
