@@ -7,7 +7,7 @@ module.exports = {
   copyright: '© All rights reserved.',
   disqusShortname: '',
   postsPerPage: 4,
-  googleAnalyticsId: 'UA-73379983-2',
+  googleAnalyticsId: 'UA-138660526-1',
   menu: [
     {
       label: 'Articles',
@@ -27,12 +27,10 @@ module.exports = {
     photo: '/photo.jpg',
     bio: 'Researcher and Amateur Musician',
     contacts: {
+      linkedin: '#',
       email: 'alanqingranwang@gmail.com',
-      telegram: '#',
-      twitter: '#',
-      github: '#',
-      rss: '#',
-      vkontakte: '#'
+      github: 'alanqingranwang',
+      rss: '#'
     }
   }
 };
