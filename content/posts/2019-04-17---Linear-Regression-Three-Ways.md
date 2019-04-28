@@ -1,6 +1,6 @@
 ---
 title: Linear Regression Three Ways
-date: "2019-04-17T22:40:32.169Z"
+date: "2019-04-28T22:40:32.169Z"
 template: "post"
 draft: false
 slug: "/posts/linear-regression-three-ways/"
