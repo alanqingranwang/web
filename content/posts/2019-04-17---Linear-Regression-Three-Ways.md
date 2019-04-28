@@ -45,10 +45,10 @@ $$
 \epsilon = y - Xw
 $$ 
 
-Intuitively, the line that minimizes the error over all the points in the dataset should be the line of best fit. An alternative way of thinking of this is that we are finding a set of parameters $w$ that *minimizes the value of the unmodeled effects* $\epsilon$.
+Intuitively, the line that minimizes the error over all the points in the dataset should be the line of best fit. An alternative way of thinking of this is that we are finding a set of parameters $w$ that minimizes the value of the unmodeled effects $\epsilon$.
 
 ![residuals.png](/media/residuals.png)
-*Linear regression fit for $N=10$ and $d=2$.The vertical line between each point and the fitted line represents the error or residual.*
+*Linear regression fit for $N=10$ and $d=2$. The vertical line between each point and the fitted line represents the error or residual.*
 
 To this end, let's formulate the solution as an optimization problem with the program:
 
@@ -93,6 +93,9 @@ p(y_i | X_i; w) = \frac{1}{\sqrt{2\pi \sigma^2}} \exp \Big\{-\frac{(y_i - X_i^Tw
 $$
 
 Crucially, we can leverage the fact that $y_i$ is only dependent on $X_i$ (clearly, an observation should only be dependent on its corresponding underlying factors that caused it).
+
+![gaussian-linreg.png](/media/gaussian-linreg.png)
+*Linear regression with $y_i$'s modeled as Gaussian random variables conditioned on $X_i$'s. Every datapoint is thus some realization of a normal random variable centered at the line and with some non-zero variance.*
 
 Let's use this fact when calculating the negative log-likelihood:
 
