@@ -3,7 +3,7 @@
 module.exports = {
   url: 'https://alanqingranwang.com',
   title: 'Blog by Alan Wang',
-  subtitle: 'Reseacher and Amateur Musician',
+  subtitle: 'Reseacher',
   copyright: '© All rights reserved.',
   disqusShortname: '',
   postsPerPage: 4,
@@ -25,7 +25,7 @@ module.exports = {
   author: {
     name: 'Alan Wang',
     photo: '/photo.jpg',
-    bio: 'Researcher and Amateur Musician',
+    bio: 'Researcher',
     contacts: {
       linkedin: '#',
       email: 'alanqingranwang@gmail.com',
