@@ -1,6 +1,6 @@
 ---
 title: Interpretations of the Fourier Transform
-date: "2019-04-17T22:40:32.169Z"
+date: "2019-06-30T22:40:32.169Z"
 template: "post"
 draft: false
 slug: "/posts/fourier-transform-3-ways/"
