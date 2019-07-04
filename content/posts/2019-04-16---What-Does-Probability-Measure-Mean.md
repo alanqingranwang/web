@@ -17,7 +17,7 @@ In many probability courses, you may run into phrases like "probability measure"
 ## Let's start with rulers
 ![Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi.](/media/meter-stick.jpg)
 
-Suppose we would like to measure the length of a wooden table. How would we do so? Let's imagine we are rather archaic and we choose to use a meter stick. In this case, the meter stick is our "length measure": in a sense, we are summarizing the length of a table into a quantitative value (e.g., 5 feet, 12 meters, etc.). You may choose to think of our length measure as a mapping from a space of objects to a space of concrete values!
+Suppose we would like to measure the length of a wooden table. How would we do so? Let's imagine we are rather archaic and we choose to use a meter stick. In this case, the meter stick is our "length measure": in a sense, we are summarizing the length of a table into a quantitative value (e.g., 5 feet, 12 meters, etc.). You may choose to think of our length measure as a mapping from a space of objects to a space of concrete values.
 
 <figure class="float-right" style="width: 200px">
 	<img src="/media/probability-measure-1.jpg" alt="Gutenberg">
@@ -39,10 +39,10 @@ $$
 
 for an input $S \in \mathcal{S}$. 
 
-And just like that, we have defined a measure over the set $\mathcal{S}$! We can make judgments about any set $S \in \mathcal{S}$ by looking at its measure, and we can also make comparisons between two or more different sets in $\mathcal{S}$ from their respective measures. Essentially, our measure $f$ is able to provide us a summary of any object over which the measure is defined, which is very useful to us (especially if those objects are abstract entities like sets)! 
+And just like that, we have defined a measure over the set $\mathcal{S}$! We can make judgments about any set $S \in \mathcal{S}$ by looking at its measure, and we can also make comparisons between two or more different sets in $\mathcal{S}$ from their respective measures. Essentially, our measure $f$ is able to provide us a summary of any object over which the measure is defined, which is very useful to us (especially if those objects are abstract entities like sets). 
 
 ## Back to probability
-Let's connect this back to actual probability theory! Probability theory defines the notion of a measure space: 
+Probability theory defines the notion of a measure space: 
 
 $$
 (\Omega, \mathcal{F}, P).

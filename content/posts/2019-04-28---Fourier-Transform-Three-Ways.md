@@ -3,15 +3,15 @@ title: Interpretations of the Fourier Transform
 date: "2019-06-30T22:40:32.169Z"
 template: "post"
 draft: false
-slug: "/posts/fourier-transform-3-ways/"
+slug: "/posts/interpretations-of-the-fourier-transform/"
 category: "Signal Processing"
 tags:
   - "Signal Processing"
   - "Math"
-description: "What is this magical transform and how does it work so beautifully?"
+description: "Derivations and Relations to the Fourier Series"
 ---
 
-The Fourier Transform is a hallmark of signal processing and is one of the most fundamental topics in all of engineering. But, it has a complicated formula that tells very little of the intuition behind it:
+The importance and application of the Fourier Transform can hardly be understated. But, it has a complicated formula that tells very little of the intuition behind it:
 $$
 X(\omega) = \int_{-\infty}^\infty x(t) e^{-j\omega t} dt \longleftrightarrow x(t) = \frac{1}{2\pi}\int_{-\infty}^\infty X(\omega) e^{j \omega t} d\omega.
 $$
