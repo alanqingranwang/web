@@ -8,7 +8,7 @@ category: "Signal Processing"
 tags:
   - "Signal Processing"
   - "Math"
-description: "Derivations and Relations to the Fourier Series"
+description: "As a limit of an aperiodic Fourier series"
 ---
 
 The importance and application of the Fourier Transform can hardly be understated. But, it has a complicated formula that tells very little of the intuition behind it:
