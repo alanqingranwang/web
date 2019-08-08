@@ -25,7 +25,7 @@ module.exports = {
   author: {
     name: 'Alan Wang',
     photo: '/photo.jpg',
-    bio: 'Researcher',
+    bio: 'Student',
     contacts: {
       linkedin: '#',
       email: 'alanqingranwang@gmail.com',
