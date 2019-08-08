@@ -1,9 +1,9 @@
 ---
-title: Interpretations of the Fourier Transform
+title: Interpretations of the Fourier Transform, Part 1
 date: "2019-06-30T22:40:32.169Z"
 template: "post"
 draft: false
-slug: "/posts/interpretations-of-the-fourier-transform/"
+slug: "/posts/interpretations-of-the-fourier-transform-part-1/"
 category: "Signal Processing"
 tags:
   - "Signal Processing"
@@ -17,14 +17,15 @@ X(\omega) = \int_{-\infty}^\infty x(t) e^{-j\omega t} dt \longleftrightarrow x(t
 $$
 This post presents two separate intuitions for the Fourier Transform. We will restrict our attention to continuous-time signals only.
 
+# Limit of the Fourier Series
 ## The Quick and Dirty on the Fourier Series
 Any periodic function can be expressed as a sum of harmonically-related complex exponentials. This is the central idea surrounding the Fourier Series. Formally, we can write (the proper word is *synthesize*) any periodic function $\tilde{x}(t)$ as a linear combination of the form
 $$
 \tilde{x}(t) = \sum_{n = -\infty}^\infty X_n e^{j n \omega_0 t} \tag{1}
 $$
-Some key observations from this expression: 
+Some key observations from this expression:
 + $\tilde{x}$ denotes that our function is periodic. That is, $\tilde{x}(t) = \tilde{x}(t - nT)$, where $T$ is the period of the function and $n$ is any integer.
-+ The formula presents a sum of an infinite number of complex exponentials $e^{j n \omega_0 t}$, which each have period $\frac{2\pi}{n \omega_0}$. [^1] 
++ The formula presents a sum of an infinite number of complex exponentials $e^{j n \omega_0 t}$, which each have period $\frac{2\pi}{n \omega_0}$. [^1]
 + Each complex exponential has frequency $n\omega_0$. That is, every complex exponential that makes up $\tilde{x}(t)$ is an integer multiple of a *fundamental frequency* $\omega_0$. We say that $\tilde{x}(t)$ is composed of a set of *harmonically-related* complex exponentials.
 + We have a set of Fourier coefficients $\{X_n\}$, each of which represent the magnitude of its corresponding complex exponential.
 + We have an independent variable $t$ representing time that, when indexed, gives us a specific value of our signal at that time.
@@ -39,10 +40,10 @@ $$
 \end{aligned}
 $$
 
-Now, we will use something called the [orthogonality property](https://en.wikipedia.org/wiki/Orthogonal_functions) of harmonically-related complex exponentials, which states that for $n, m \in \mathbb{R}$, 
+Now, we will use something called the [orthogonality property](https://en.wikipedia.org/wiki/Orthogonal_functions) of harmonically-related complex exponentials, which states that for $n, m \in \mathbb{R}$,
 $$
 \int_{T_0} e^{j n \omega_0 t}e^{-jm\omega_0 t} dt = \begin{cases} T_0, & n = m \\ 0, & n \neq m \end{cases}
-$$ 
+$$
 This implies that in our above sum, all the terms will drop out except for one which is equal to $T_0$. If we move that over to the left-hand side, we arrive at the final relation:
 $$
 X_n = \frac{1}{T_0} \int_{T_0}\tilde{x}(t)e^{-jn\omega_0 t} dt. \tag{2}
@@ -52,11 +53,14 @@ The two equations (1) and (2) give us a means to examine a periodic function in 
 
 
 ## The Fourier Transform is the "Limit" of the Fourier Series
-The Fourier Transform generalizes the Fourier Series to any signal, not just periodic signals. The key idea is this: any aperiodic signal $\tilde{x}(t)$ is equivalent to a periodic signal $x(t)$ *with infinite period*. If you believe me on the validity of the Fourier series for periodic signals, then let's start with those formulas and extend to the more general case.
+The Fourier Transform generalizes the Fourier Series to any signal, not just periodic signals. Since any aperiodic signal $\tilde{x}(t)$ is equivalent to a periodic signal $x(t)$ *with infinite period*, the key idea is:
+> The Fourier transform of an aperiodic signal is the Fourier Series representation of a corresponding periodic signal over one period, where that period has been extended to be of infinite length.
+
+If you believe me on the validity of the Fourier series for periodic signals, then let's start with those formulas and extend to the more general case of aperiodic signals.
 
 We will be taking the limit as $T_0 \rightarrow \infty$, or equivalently as $\omega_0 \rightarrow 0$ (because $T_0 = \frac{2\pi}{\omega_0}$).
 
-Take a look at $(1)$ and $(2)$ again. Remember, they are the Fourier series pair of equations that allow us to go between our original signal $\tilde{x}(t)$ and a discrete set of Fourier coefficients $\{X_n\}$. 
+Take a look at $(1)$ and $(2)$ again. Remember, they are the Fourier series pair of equations that allow us to go between our original signal $\tilde{x}(t)$ and a discrete set of Fourier coefficients $\{X_n\}$.
 $$
 \tilde{x}(t) = \sum_{n = -\infty}^\infty X_n e^{j n \omega_0 t} \tag{1}
 $$
@@ -79,7 +83,7 @@ I'll explicitly state the changes I made here:
 Recall the definition of an integral. Specifically, for a continuous function $f(x)$, Riemann integration is the sum of an infinite number of rectangles with infinitesimally-small width:
 $$
 \int_{-\infty}^\infty f(x) dx = \lim_{\Delta x \rightarrow 0} \sum_{n = -\infty}^\infty f(n \Delta x) \Delta x.
-$$ 
+$$
 
 The right hand side is precisely what we have in $(3)$! By taking the limit as $\omega_0 \rightarrow 0$, we arrive at
 $$
@@ -95,9 +99,9 @@ $$
 X(\omega) &= \lim_{\omega_0 \rightarrow 0} \int_{-\pi/\omega_0}^{\pi/\omega_0} x(t)e^{-j\omega t} dt \\
  &= \int_{-\infty}^{\infty} x(t)e^{-j\omega t} dt. \tag{6}
 \end{aligned}
-$$ 
+$$
 
-Just like that, we have derived the Fourier Transform and its inverse Fourier Transform, simply by extending the Fourier Series to infinite period! 
+Just like that, we have derived the Fourier Transform and its inverse Fourier Transform, simply by extending the Fourier Series to infinite period!
 
 What is the graphical intuition behind this? Consider a periodic rectangular pulse function $x(t)$ with period $T_0$ and its Fourier coefficients $X(nF_0)$, defined over $F$ [^3]:
 
@@ -117,7 +121,8 @@ As we suspect, the space between coefficients decreases by a factor of $2$. You 
 
 ![fourier3.png](/media/fourier3.png)
 
-This continuous function $X(F)$ is what we call the Fourier transform.
+This continuous function $X(F)$ is what we call the Fourier transform. Whereas with the Fourier series we viewed a periodic function as an infinite sum of complex exponentials consisting of harmonically-related frequencies, the Fourier transform describes an aperiodic function as an infinite integral of complex exponentials consisting *of all frequencies*.
+
 
 
 [^1]: You can think of the word "period" as being from Euler's formula, which says that $e^{jx} = \cos x + j \sin x$.
