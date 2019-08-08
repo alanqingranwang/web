@@ -10,8 +10,13 @@ tags:
   - "Math"
 description: "As a projection of eigenfunctions"
 ---
+In [Part 1](https://www.alanqwang.com/posts/interpretations-of-the-fourier-transform-part-1/), I introduced the Fourier Transform as the "limit" of the Fourier series. We found that extending the period of a periodic function in the time domain resulted in a narrowing of the distance between consecutive Fourier coefficients in the frequency domain. By extending the period to infinity (thus rendering the function aperiodic), the distance between Fourier coefficients became so small that we eventually arrived at a continuous function in the frequency domain, this function being the Fourier transform.
 
-## Background on Vectors and Subspaces
+In this post, I will introduce the Fourier Transform as a projection onto the subspace of complex exponentials. It can be shown that the Fourier series is, in fact, a projection onto vectors of the form $e^{jn \omega_0 t}$, where $n \in \mathbb{Z}$. The Fourier transform has a similar reasoning but in a continuous sense, with basis $e^{j \omega t}$, where $\omega \in \mathbb{R}$. 
+
+First, I will cover background on vectors and subspaces that we will need. Then, I will motivate use of complex exponentials as an alternative basis, before introducing the main idea of the post. Incidentally, the motivation of the basis applies to concepts in Part 1, although it becomes much clearer when introduced here.
+
+## Background: Vectors and Subspaces
 
 Vectorizing signals provides an alternative lens by which to view the Fourier Transform. You may be familiar with the 3-dimensional Euclidian space $\mathbb{R}^3$, composed of the orthogonal basis functions $i$, $j$, and $k$. The term "orthogonal" is defined in terms of the inner product of this space, which is the familiar dot product:
 $$
@@ -25,9 +30,9 @@ The orthogonality of these basis functions is important; it's what allows us to 
 $$
 v = v_1 i + v_2 j + v_3 k.
 $$
-If two vectors are orthogonal, you may think intuitively that there is no information of one vector in the "direction" of the other vector. Furthermore, decomposing a space into its basis functions completely "characterizes" the degrees of freedom inherent in that space. That is, the basis functions are the most elemental vectors within that space by which all other vectors can be built. Indeed, having one less basis function would render you unable to express a whole host of vectors (e.g. we would only be able to express 2D vectors), and having one more basis vector would be redundant (why have one more when 3 is perfectly enough).
+If two vectors are orthogonal, you may think intuitively that there is no information of one vector in the "direction" of the other vector. Furthermore, decomposing a space into its basis functions completely "characterizes" the degrees of freedom inherent in that space. That is, the basis functions are the most elemental vectors within that space by which all other vectors can be built. 
 
-If an inner product of $0$ between two vectors implies no mutual information in the direction of the vectors, you may surmise that a non-zero value of the inner product leads to some notion of "overlap" or "projection" between the two vectors. Indeed, we may find the projection of one vector $x$ in the direction of the other vector $y$ $proj_y : \mathbb{R}^n \rightarrow \mathbb{R}$ as proportional to the inner product of the two vectors:
+If an inner product of $0$ between two vectors implies no mutual information in the direction of the vectors, you may surmise that a non-zero value of the inner product leads to some notion of "overlap" or "projection" between the two vectors. Indeed, we may find the projection of one vector $x$ in the direction of the other vector $y$, $proj_y : \mathbb{R}^n \rightarrow \mathbb{R}$, as proportional to the inner product of the two vectors:
 $$
 proj_y(x) = \frac{\langle x, y \rangle}{||y||}.
 $$
@@ -35,10 +40,7 @@ The denominator $\langle y, y \rangle$ is a normalizing factor that allows proje
 
 ## Aside: Some properties of the vector space of functions
 Now, I will outline some properties of the vector space of functions that we will need later.
-Let $S$ be defined as the space of square-integrable functions:
-$$
-S = \{x(t) : \int_{\mathbb{R}} |x(t)|^2 dt < \infty\}.
-$$
+Let $S$ be defined as the space of continuous-time functions. Then,
 + S has the inner product
 $$
 \langle x, y \rangle = \int_{-\infty}^\infty x(t) y^*(t) dt,
@@ -46,8 +48,10 @@ $$
 where $^*$ denotes the complex conjugate.
 + The space of complex exponentials $\{e^{j \omega t}\}_{\omega=-\infty}^\infty$ is a basis for $S$.[^1] 
 
+You may think of the time domain representation of signals as having basis $\{\delta(t)\}_{t=-\infty}^\infty$. That is, every signal is simply a linear sum of deltas shifted across all continuous time, weighted to match the signal's amplitude at each time. However, if we instead change the basis to $\{e^{j \omega t}\}_{\omega=-\infty}^\infty$, then we can look at our signal from an entirely different lens. The function that represents the projections onto this basis is, in fact, the Fourier transform. 
+
 ## Putting it all together
-Here's an alternative view of the Fourier transform:
+Here's the main point:
 > The Fourier transform $F(\omega)$ is the scalar projection onto the subspace generated by a complex exponential of frequency $\omega$, for all $\omega \in \mathbb{R}$.
 
 In other words, instead of looking at a signal as some quantity (e.g. voltage, current, etc.) that is changing over time, we will look at it as some quantity that is changing over frequency. For each particular frequency $\omega$, we will project our signal onto the subspace generated by that frequency, and the function that represents all these projections over any frequency $\omega$ is the Fourier transform, $F(\omega)$!
@@ -67,18 +71,22 @@ $$
 X(\omega) = \frac{1}{2\pi}\int_{-\infty}^\infty x(t) e^{-j\omega t} dt
 $$
 
-
 ## Why do we use $e^{j\omega t}$ as the basis?
+By itself, changing the basis of a signal is at best, a fun mathematical exercise, and at worst, pretty meaningless and needlessly complex. However, it turns out that defining a signal in terms of complex exponentials has a remarkable property that allows an alternative, and often times much simpler, way of analyzing LTI systems.
+
 Consider an LTI system characterized by an impulse response $h(t)$. A curious property of LTI systems is that complex exponential inputs are eigenfunctions of the system. That is, if the system is defined as $\mathcal{S}\{x(t)\}$, then for input $x(t) = e^{j\omega t}$, 
 $$
 \mathcal{S}\{e^{j\omega t}\} = \int_{-\infty}^\infty e^{j\omega (t-\tau)} h(\tau) d\tau = \underbrace{e^{j\omega t}}_{x(t)}\underbrace{\int_{-\infty}^\infty e^{j\omega \tau} h(-\tau) d\tau}_{H(\omega)} = H(\omega) x(t)
 $$
+What this shows is that the output of an LTI system with a complex exponential input is, in fact, the same input multiplied by a scaling factor $H(\omega)$, which is in fact the Fourier transform of the impulse response $h(t)$.
 
-Furthermore, since all LTI systems are linear by definition, it follows that an input into a system which is a linear combination of scaled and shifted complex exponentials will have each term multiplied by the $H(\omega)$ from before. In particular,
+Let's take this even further. Since all LTI systems are linear by definition, it follows that an input into a system which is a linear combination of scaled and shifted complex exponentials will have each term multiplied by the $H(\omega)$ from before. In particular,
 $$
 \mathcal{S}\left\{\frac{1}{2\pi} \int_{\mathbb{R}} X(\omega) e^{j\omega t} d\omega \right\} = \frac{1}{2\pi} \int_{\mathbb{R}} H(\omega)X(\omega) e^{j\omega t} d\omega
 $$
 
-The bottom line is this: If we can express our signal as a linear combination of scaled and shifted complex exponentials, then the output of the system will have a Fourier representation given by $H(\omega)X(\omega)$. 
+The bottom line is this: If we can express our signal as a linear combination of scaled and shifted complex exponentials, then the output of the system will have a Fourier representation given by $H(\omega)X(\omega)$. It just so happens that that's what our Fourier transform is!
+
+So, because we represented our signal in this new basis, we can now simply analyze outputs of systems using multiplication instead of convolution. This property of LTI systems is really the sole reason why Fourier transforms are so fundamentally useful.
 
 [^1]: https://math.stackexchange.com/questions/2340094/why-frac12-pi-int-infty-inftyeiwt-xdw-is-the-dirac-delta-func 
