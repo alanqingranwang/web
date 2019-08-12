@@ -8,7 +8,7 @@ category: "Machine Learning"
 tags:
   - "Machine Learning"
   - "Math"
-description: "My musings on the topic of the physical basis of probability that cuts at the heart of our physical world and philosophy itself."
+description: "An overview how VAEs solve the questions inherent to latent variable models."
 ---
 
 # Background: Latent Variable Models
