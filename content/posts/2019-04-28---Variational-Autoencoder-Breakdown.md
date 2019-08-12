@@ -8,7 +8,7 @@ category: "Machine Learning"
 tags:
   - "Machine Learning"
   - "Math"
-description: "An overview how VAEs solve the questions inherent to latent variable models."
+description: "An overview of how VAEs solve the questions inherent to latent variable models."
 ---
 
 # Background: Latent Variable Models
@@ -48,9 +48,14 @@ Dissecting this expression:
 By representing the model in this fashion, the generation of a sample can be thought of as a process, whereby we first sample $z\sim p(z)$ and then pass that $z$ into a "function" of the form $p(x|z)$. This process must be done and integrated over all possible $z$'s in the latent space. You might notice that integrating over this entire space is a very time-consuming ordeal.
 
 There are several questions that we might have at this point:
-1. What is $p(z)$ and $p(x|z)$?
-2. How do we avoid having to integrate over the entire latent space?
-3. How can we leverage neural networks and training data to learn this model optimally?
+### 1. What is $p(z)$ and $p(x|z)$?
+In order to do any type of generation, we have to specify what the components in Equation $(1)$ are. As we will see, VAEs solve this with the help of neural networks.
+
+### 2. How do we avoid having to integrate over the entire latent space?
+As alluded to above, having to somehow integrate over the entire space of $z$'s is a very daunting task; indeed, there are practically an infinite number of configurations of $z$ that we have to go through. VAEs are smarter about which $z$'s we actually pick to integrate over, which mitigates the time necessary to perform inference. 
+
+### 3. How can we leverage neural networks and training data to learn this model optimally?
+Principally, VAEs leverage the power of neural networks and training data to learn optimal encodings and decodings of the observed data and latent space. We will see the objective function that VAEs optimize and how we arrive at such a formulation.
 
 In the rest of this post, I will discuss how VAEs address each of these questions.
 
@@ -68,45 +73,73 @@ The problem with this method is that it takes a really long time to sample enoug
 
 <figure style="width: 700px">
 	<img src="/media/vae-decoder-half.PNG" alt="Gutenberg">
-	<figcaption>Our measurable object</figcaption>
+	<figcaption>An inefficient way of performing inference, where it is necessary to integrate over all configurations of the latent space.</figcaption>
 </figure>
 
-If only we knew a function, say $q(z|x)$, that would tell us the $z$'s that are most likely to result in observable $x$'s. The space of latent variables that are likely under this function $q$ would definitely be smaller than the entire latent space, so it would make the calculations a lot more tractable. Of course, a good $q$ would be very close to the distribution $p(z|x)$ that represents our model. How do we make sure that our function $q(z|x)$ is close to $p(z|x)$?
+Here's an idea: just as we are using a "function" $p_\theta(x|z)$ to map observed data to a given latent representation, why don't we similarly use another "function" $p(z|x)$ to give us the latent representation that maps to the observed data of interest? The space of latent variables that are likely under this function $q$ would definitely be smaller than the entire latent space, so it would make the calculations a lot more tractable. In this way, we could just sample $z\sim p(z|x)$ to get $z$'s that are most likely to arise from our given $x$, and then use our known $p_\theta(x|z)$ to generate new samples just as before:
+$$
+p(x) \approx \frac{1}{n}\sum_{i=1}^N p_\theta(x|z_i), \text{   where   } z_i \sim p(z|x).
+$$
+
+This, however, brings up several different issues. Firstly, what is $p(z|x)$? Bayes' rule says
+$$
+p(z|x) = \frac{p(x|z) p(z)}{p(x)} = \frac{p(x|z) p(z)}{\int p(x|z)p(z) dz}.
+$$ 
+We already know or will be solving for $p(z)$ and $p(x|z)$, but $p(x)$ requires integrating over all configurations of $z$, which is the exact problem we are trying to avoid in the first place!
+
+The solution here is to introduce another function, denoted $q_\phi(z|x)$, that we will learn and encourage to be close to the true $p(z|x)$. Learning can be done with gradient descent, and is done simultaneously with the learning of $p_\theta(x|z)$ from before.
+
+We can now talk about why variational autoencoders are named as they are. 
+1. Notice that we have effectively replaced the posterior distribution over the latent space with a family of distributions $q_\phi$, the parameters $\phi$ of which we will optimize. This is traditionally done in a class of statistical methods called variational methods, and is the reason for the "variational" part of VAEs. 
+2. Additionally, our plan of attack is now to first pass our observed data $x$ through a "function" $q_\phi(z|x)$, which will give us a latent representation $z$ of the data, and then immediately pass this $z$ through another "function" $p_\theta(x|z)$ which we hope will learn to map that $z$ back to the original data $x$. Since we are simultaneously learning both $q_\phi$ and $p_\theta$ end-to-end, this structure is very similar to a traditional autoencoder!
 
 ![vae-whole.png](/media/vae-whole.PNG)
 
+There are still key differences between VAEs and traditional autoencoders. Autoencoders by themselves are not generative; they do not model probability distributions and are not driven to encode latent information from a Bayesian standpoint. While autoencoders do use neural networks to represent an encoder-decoder pair which is trained to encourage input-output reconstruction, the codes that an autoencoder learns are discrete in the latent space. That is, every code has a one-to-one mapping to its corresponding datum, and there is no guarantee that the autoencoder will produce something remotely plausible given a code that it has not been trained on.
+
+On the other hand, we want to be able to generate new samples by sampling from a standard normal in the latent space and decoding into the observed space. As such, the objective function we will need is richer than just a reconstruction loss. In the final section, we will show how using Bayesian modeling can help us derive an objective function that augments the traditional loss of autoencoders, and that allows VAEs to be generative.
+
 # 3. How can we learn the model?
 ## The Objective Function
-Enter the Kullback-Liebler Divergence, which measures similarity between two probability distributions. If we minimize the KL-divergence between $q(z|x)$ and $p(z|x)$, then we will have an approximation of $q(z|x)$ that is close to what we would like, and thus have a space of latent variables $z \sim q(z|x)$ that is meaningful. Let's start with the KL-divergence between $q$ and $p$:
+As we said before, the key to the VAE is making the approximated posterior $q_\phi(z|x)$ to be similar to the true posterior $p(z|x)$. To do this, we will need a metric that characterizes the similarity between two probability distributions. We will see that minimizing this metric will not only allow for good posterior approximation, but also lead us to a tractable objective function of the entire autoencoder network with the help of Bayes' rule.
+
+For starters, the similarity metric we will be using is the Kullback-Liebler Divergence, which measures similarity between two probability distributions. Let's start with the KL-divergence between $q_\phi(z|x)$ and $p(z|x)$:
 $$
-D_{KL}(q(z|x) || p(z|x)) = E_{z\sim q(z|x)}[\log q(z|x) - \log p(z|x)].
+D_{KL}(q_\phi(z|x) || p(z|x)) = E_{z\sim q_\phi(z|x)}[\log q_\phi(z|x) - \log p(z|x)].
 $$
-Using Bayes' rule gets us the $p(z)$ and $p(x|z)$ that we are familiar with. Remember, we originally defined $p_\theta(x|z)$ to be parameterized by $\theta$, so now we incorporate $\theta$ into the parameter set over which we are minimizing:
+If we use Bayes' rule on $p(z|x)$, we can effectively get $p(z)$, $p_\theta(x|z)$, and $p(x)$ into our objective function as well:
 $$
-D_{KL}(q(z|x) || p(z|x)) = E_{z\sim q(z|x)}[\log q(z|x) - \log p_\theta(x|z) - \log p(z)] + \log p(x).
+D_{KL}(q_\phi(z|x) || p(z|x)) = E_{z\sim q_\phi(z|x)}[\log q_\phi(z|x) - \log p_\theta(x|z) - \log p(z)] + \log p(x).
 $$
 Now, let's rearrange and simplify slightly:
 $$
 \begin{aligned}
-\log p(x) - D_{KL}(q(z|x) || p(z|x)) &= -E_{z\sim q(z|x)}[\log q(z|x) - \log p(x|z) - \log p(z)] \\
-&= E_{q(z|x)}[\log p(x|z)] - E_{z\sim q(z|x)}[\log q(z|x)-\log p(z)] \\
-&= E_{q(z|x)}[\log p(x|z)] - D_{KL}(q(z|x) || p(z)). \tag{3} \\
+\log p(x) - D_{KL}(q_\phi(z|x) || p(z|x)) &= -E_{z\sim q_\phi(z|x)}[\log q_\phi(z|x) - \log p_\theta(x|z) - \log p(z)] \\
+&= E_{q_\phi(z|x)}[\log p_\theta(x|z)] - E_{z\sim q_\phi(z|x)}[\log q_\phi(z|x)-\log p(z)] \\
+&= E_{q_\phi(z|x)}[\log p_\theta(x|z)] - D_{KL}(q_\phi(z|x) || p(z)). \tag{3} \\
 &:= \text{ELBO}_{\theta, \phi}(x)
 \end{aligned}
 $$
-From this expression, we can see that if we wish to minimize the KL-divergence between $q(z|x)$ and $p(z|x)$, it is equivalent to maximizing the expression in $(3)$, which is also known as the empirical lower bound (ELBO). In a sense, the KL-divergence term is an "error" term that describes the error between what we want to optimize, $p(x)$, and what we can tractably optimize, $\text{ELBO}_{\theta, \phi}(x)$. Since the KL-divergence can never be negative, we can effectively optimize what we want (which is intractable) by maximizing a lower bound of the value we want (which is tractable).
+Equation $(3)$ is a very compelling equation; we have introduced a newly-defined $\text{ELBO}$ (abbreviated for Empirical Lower BOund, as we will see) function which is the sum of the value we originally wanted to *maximize*, $p(x)$, and an "error" term $-D_{KL}(q_\phi(z|x) || p(z|x))$ that we originally wanted to *minimize*. One important thing to note is that KL-divergences are always non-negative. Thus, there are two common ways to make sense of the equation, both of which lead to the same conclusion:
 
-So, our objective function is effectively
+1. Minimizing the KL-divergence between $q_\phi(z|x)$ and $p(z|x)$  $\implies$ Maximizing the $\text{ELBO}$ function. Because the KL-divergence is non-negative, we can force our approximated posterior to be similar to the true posterior by maximizing this function.
+2. Maximizing the log-likelihood $p(x)$ $\implies$ Maximizing the $\text{ELBO}$ function. The $\text{ELBO}$ is effectively a lower bound on $p(x)$:
 $$
-\argmax_{\theta, \phi}\text{ELBO}_{\theta, \phi}(x) = E_{z \sim q(z|x)}[\log p(x|z)] - D(q(z|x) || p(z)).
+\log p(x) \geq \text{ELBO}_{\theta, \phi}(x).
+$$
+Why do we put so much emphasis on the $\text{ELBO}$ function? The reason is that unlike $\log p(x)$, $\text{ELBO}_{\theta, \phi}(x)$ is actually tractable to optimize since it does not contain a $p(x)$ term! Whichever way you choose to look at it, we now have a tractable objective function that gives us a means to optimize our VAE network:
+$$
+\argmax_{\theta, \phi}\text{ELBO}_{\theta, \phi}(x) = E_{z \sim q_\phi(z|x)}[\log p_\theta(x|z)] - D_{KL}(q_\phi(z|x) || p(z)). \tag{4}
 $$
 
-Let's examine the two terms in this objective function more closely.
+The two terms in this objective function merit closer examination.
 
-Although it may not look like it, this term is effectively a reconstruction loss. This is because in order to solve for this term, we must sample from $q$ to get a particular $z$ (equivalently, take an $x$ from our training set and encode it), and then run this $z$ through $\log p$ (equivalently, decode the $z$). This is equivalent to doing a forward pass through the entire autoencoder network! In addition, if $q$ does a good job of mapping $x$'s to $z$'s, and $p$ does a good job of transforming $z$'s back to $x$'s, then $p(x|z)$ will be close to $1$ and thus $\log p(x|z)$ will be close to $0$. So, this expectation term will indeed be minimized if the encoder-decoder pair can reconstruct outputs from inputs.
+1. Although it may not look like it, $E_{z \sim q_\phi(z|x)}[\log p_\theta(x|z)]$ is effectively a reconstruction loss. This is because in order to solve for this term, we must sample from $q$ to get a particular $z$ (equivalently, take an $x$ from our training set and encode it), and then run this $z$ through $\log p$ (equivalently, decode the $z$). This is equivalent to doing a forward pass through the entire autoencoder network! In addition, if $q$ does a good job of mapping $x$'s to $z$'s, and $p$ does a good job of transforming $z$'s back to $x$'s, then $p(x|z)$ will be close to $1$ and thus $\log p(x|z)$ will be close to $0$. Alternatively, if $p(x|z)$ is relatively low, then $\log p(x|z)$ will be a relatively large negative value. So, this expectation term will indeed be maximized if the encoder-decoder pair can reconstruct inputs effectively.
 
-## Making the Objective Gradient Descent-able
-The right hand side in this form is apt to perform gradient descent if we make some further design choices.
+2. On the other hand, $D_{KL}(q_\phi(z|x) || p(z))$ can be thought of as a regularizer, which enforces a penalty if the $z$ that the encoder outputs is not "like" a standard normal. You can imagine that without this penalty, the encoder could just spread different versions of the same code in completely different regions of latent space. By forcing the encoder to generate codes that look like they are sampled from $p(z)$, we essentially enforce structure into the prior distribution that prevents codes from being too spread apart.
+
+## Implementation Details
+We can perform gradient descent on the objective function shown in Equation $(4)$ further design choices.
 
 Let's define $q_\phi$ as being Gaussian distributed:
 $$

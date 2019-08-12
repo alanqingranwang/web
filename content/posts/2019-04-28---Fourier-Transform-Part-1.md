@@ -15,16 +15,15 @@ The importance and application of the Fourier Transform can hardly be understate
 $$
 X(\omega) = \int_{-\infty}^\infty x(t) e^{-j\omega t} dt \longleftrightarrow x(t) = \frac{1}{2\pi}\int_{-\infty}^\infty X(\omega) e^{j \omega t} d\omega.
 $$
-This post presents two separate intuitions for the Fourier Transform. We will restrict our attention to continuous-time signals only.
+This post is the first of a two-part series detailing two separate intuitions for the Fourier Transform. The first post approaches the Fourier transform as the aperiodic "limit" of the Fourier series, while the [second part](https://www.alanqwang.com/posts/fourier-transform-part-2/) approaches the Fourier transform from a more abstract algebra perspective. In both parts, we will restrict our attention to continuous-time signals only, although most concepts have a discrete analogue. 
 
-# Limit of the Fourier Series
 ## The Quick and Dirty on the Fourier Series
 Any periodic function can be expressed as a sum of harmonically-related complex exponentials. This is the central idea surrounding the Fourier Series. Formally, we can write (the proper word is *synthesize*) any periodic function $\tilde{x}(t)$ as a linear combination of the form
 $$
 \tilde{x}(t) = \sum_{n = -\infty}^\infty X_n e^{j n \omega_0 t} \tag{1}
 $$
 Some key observations from this expression:
-+ $\tilde{x}$ denotes that our function is periodic. That is, $\tilde{x}(t) = \tilde{x}(t - nT)$, where $T$ is the period of the function and $n$ is any integer.
++ $\tilde{x}$ denotes that our function is periodic. That is, $\tilde{x}(t) = \tilde{x}(t - nT)$, where $T$ is the period of the function and $n \in \mathbb{Z}$.
 + The formula presents a sum of an infinite number of complex exponentials $e^{j n \omega_0 t}$, which each have period $\frac{2\pi}{n \omega_0}$. [^1]
 + Each complex exponential has frequency $n\omega_0$. That is, every complex exponential that makes up $\tilde{x}(t)$ is an integer multiple of a *fundamental frequency* $\omega_0$. We say that $\tilde{x}(t)$ is composed of a set of *harmonically-related* complex exponentials.
 + We have a set of Fourier coefficients $\{X_n\}$, each of which represent the magnitude of its corresponding complex exponential.
