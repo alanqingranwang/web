@@ -1,6 +1,6 @@
 ---
 title: Variational Autoencoders
-date: "2019-07-03T22:40:32.169Z"
+date: "2019-08-11T22:40:32.169Z"
 template: "post"
 draft: false
 slug: "/posts/variational-autoencoder/"
