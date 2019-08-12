@@ -1,14 +1,14 @@
 ---
-title: Interpretations of the Fourier Transform, Part 1
+title: The Fourier Transform as a Limit of Fourier Coefficients
 date: "2019-06-30T22:40:32.169Z"
 template: "post"
 draft: false
-slug: "/posts/interpretations-of-the-fourier-transform-part-1/"
+slug: "/posts/fourier-transform-part-1/"
 category: "Signal Processing"
 tags:
   - "Signal Processing"
   - "Math"
-description: "As a limit of an aperiodic Fourier series"
+description: "Part 1 of a two-part series on Fourier transforms. In this post, as a \"limit\" of the Fourier series."
 ---
 
 The importance and application of the Fourier Transform can hardly be understated. But, it has a complicated formula that tells very little of the intuition behind it:
@@ -40,7 +40,7 @@ $$
 \end{aligned}
 $$
 
-Now, we will use something called the [orthogonality property](https://en.wikipedia.org/wiki/Orthogonal_functions) of harmonically-related complex exponentials, which states that for $n, m \in \mathbb{R}$,
+Now, we will use something called the [orthogonality property](https://en.wikipedia.org/wiki/Orthogonal_functions) of harmonically-related complex exponentials, which states that for $n, m \in \mathbb{Z}$,
 $$
 \int_{T_0} e^{j n \omega_0 t}e^{-jm\omega_0 t} dt = \begin{cases} T_0, & n = m \\ 0, & n \neq m \end{cases}
 $$

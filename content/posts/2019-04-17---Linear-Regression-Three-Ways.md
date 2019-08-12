@@ -1,5 +1,5 @@
 ---
-title: Linear Regression Three Ways
+title: Linear Regression in Three Ways
 date: "2019-04-28T22:40:32.169Z"
 template: "post"
 draft: false
@@ -42,7 +42,7 @@ How do we find the parameters $w$ that fit the dataset most closely? This post d
 ## 1. Direct
 The simplest and most intuitive formulation is one of minimizing the error [^2] between the observations and our fitted line. This error is precisely
 $$
-\epsilon = y - Xw
+\epsilon = y - Xw.
 $$ 
 
 Intuitively, the line that minimizes the error over all the points in the dataset should be the line of best fit. An alternative way of thinking of this is that we are finding a set of parameters $w$ that minimizes the value of the unmodeled effects $\epsilon$.
