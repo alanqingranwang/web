@@ -8,7 +8,7 @@ category: "Machine Learning"
 tags:
   - "Machine Learning"
   - "Math"
-description: "An overview of how VAEs solve the questions inherent to latent variable models."
+description: "An in-depth look at how VAEs solve the questions inherent to latent variable models."
 ---
 
 # Background: Latent Variable Models
@@ -87,9 +87,9 @@ p(z|x) = \frac{p(x|z) p(z)}{p(x)} = \frac{p(x|z) p(z)}{\int p(x|z)p(z) dz}.
 $$ 
 We already know or will be solving for $p(z)$ and $p(x|z)$, but $p(x)$ requires integrating over all configurations of $z$, which is the exact problem we are trying to avoid in the first place!
 
-The solution here is to introduce another function, denoted $q_\phi(z|x)$, that we will learn and encourage to be close to the true $p(z|x)$. Learning can be done with gradient descent, and is done simultaneously with the learning of $p_\theta(x|z)$ from before.
+The solution here is to introduce another function, denoted $q_\phi(z|x)$, that we will learn and encourage to be close to the true $p(z|x)$. We will define a similarity metric between $q_\phi(z|x)$ and $p(z|x)$ that we will attempt to minimize, effectively reformulating inference as an optimization problem. Learning can be done with gradient descent, and is done simultaneously with the learning of $p_\theta(x|z)$ from before.
 
-We can now talk about why variational autoencoders are named as they are. 
+We can now talk about why variational autoencoders are named as they are: 
 1. Notice that we have effectively replaced the posterior distribution over the latent space with a family of distributions $q_\phi$, the parameters $\phi$ of which we will optimize. This is traditionally done in a class of statistical methods called variational methods, and is the reason for the "variational" part of VAEs. 
 2. Additionally, our plan of attack is now to first pass our observed data $x$ through a "function" $q_\phi(z|x)$, which will give us a latent representation $z$ of the data, and then immediately pass this $z$ through another "function" $p_\theta(x|z)$ which we hope will learn to map that $z$ back to the original data $x$. Since we are simultaneously learning both $q_\phi$ and $p_\theta$ end-to-end, this structure is very similar to a traditional autoencoder!
 
@@ -117,19 +117,19 @@ $$
 \log p(x) - D_{KL}(q_\phi(z|x) || p(z|x)) &= -E_{z\sim q_\phi(z|x)}[\log q_\phi(z|x) - \log p_\theta(x|z) - \log p(z)] \\
 &= E_{q_\phi(z|x)}[\log p_\theta(x|z)] - E_{z\sim q_\phi(z|x)}[\log q_\phi(z|x)-\log p(z)] \\
 &= E_{q_\phi(z|x)}[\log p_\theta(x|z)] - D_{KL}(q_\phi(z|x) || p(z)). \tag{3} \\
-&:= \text{ELBO}_{\theta, \phi}(x)
+&:= \mathcal{L}_{\theta, \phi}(x)
 \end{aligned}
 $$
-Equation $(3)$ is a very compelling equation; we have introduced a newly-defined $\text{ELBO}$ (abbreviated for Empirical Lower BOund, as we will see) function which is the sum of the value we originally wanted to *maximize*, $p(x)$, and an "error" term $-D_{KL}(q_\phi(z|x) || p(z|x))$ that we originally wanted to *minimize*. One important thing to note is that KL-divergences are always non-negative. Thus, there are two common ways to make sense of the equation, both of which lead to the same conclusion:
+Equation $(3)$ is a very compelling equation; we have introduced a newly-defined $\mathcal{L}$ (sometimes referred to as the empirical lower bound, as we will see) function which is the sum of the value we originally wanted to *maximize*, $p(x)$, and an "error" term $-D_{KL}(q_\phi(z|x) || p(z|x))$ that we originally wanted to *minimize*. One important thing to note is that KL-divergences are always non-negative. Thus, there are two common ways to make sense of the equation, both of which lead to the same conclusion:
 
-1. Minimizing the KL-divergence between $q_\phi(z|x)$ and $p(z|x)$  $\implies$ Maximizing the $\text{ELBO}$ function. Because the KL-divergence is non-negative, we can force our approximated posterior to be similar to the true posterior by maximizing this function.
-2. Maximizing the log-likelihood $p(x)$ $\implies$ Maximizing the $\text{ELBO}$ function. The $\text{ELBO}$ is effectively a lower bound on $p(x)$:
+1. Minimizing the KL-divergence between $q_\phi(z|x)$ and $p(z|x)$  $\implies$ Maximizing $\mathcal{L}$. Because the KL-divergence is non-negative, we can force our approximated posterior to be similar to the true posterior by maximizing this function.
+2. Maximizing the log-likelihood $p(x)$ $\implies$ Maximizing $\mathcal{L}$. The $\mathcal{L}$ is effectively a lower bound [^4] on $p(x)$:
 $$
-\log p(x) \geq \text{ELBO}_{\theta, \phi}(x).
+\log p(x) \geq \mathcal{L}_{\theta, \phi}(x).
 $$
-Why do we put so much emphasis on the $\text{ELBO}$ function? The reason is that unlike $\log p(x)$, $\text{ELBO}_{\theta, \phi}(x)$ is actually tractable to optimize since it does not contain a $p(x)$ term! Whichever way you choose to look at it, we now have a tractable objective function that gives us a means to optimize our VAE network:
+Why do we put so much emphasis on the $\mathcal{L}$ function? The reason is that unlike $\log p(x)$, $\mathcal{L}_{\theta, \phi}(x)$ is actually tractable to optimize since it does not contain a $p(x)$ term! Whichever way you choose to look at it, we now have a tractable objective function that gives us a means to optimize our VAE network:
 $$
-\argmax_{\theta, \phi}\text{ELBO}_{\theta, \phi}(x) = E_{z \sim q_\phi(z|x)}[\log p_\theta(x|z)] - D_{KL}(q_\phi(z|x) || p(z)). \tag{4}
+\argmax_{\theta, \phi}\mathcal{L}_{\theta, \phi}(x) = E_{z \sim q_\phi(z|x)}[\log p_\theta(x|z)] - D_{KL}(q_\phi(z|x) || p(z)). \tag{4}
 $$
 
 The two terms in this objective function merit closer examination.
@@ -139,7 +139,7 @@ The two terms in this objective function merit closer examination.
 2. On the other hand, $D_{KL}(q_\phi(z|x) || p(z))$ can be thought of as a regularizer, which enforces a penalty if the $z$ that the encoder outputs is not "like" a standard normal. You can imagine that without this penalty, the encoder could just spread different versions of the same code in completely different regions of latent space. By forcing the encoder to generate codes that look like they are sampled from $p(z)$, we essentially enforce structure into the prior distribution that prevents codes from being too spread apart.
 
 ## Implementation Details
-We can perform gradient descent on the objective function shown in Equation $(4)$ further design choices.
+In practice, we make several further design choices to make gradient descent possible on the objective function shown in Equation $(4)$.
 
 Let's define $q_\phi$ as being Gaussian distributed:
 $$
@@ -163,21 +163,15 @@ $$
 
 Additionally, note that this is the same strategy we were going to take originally in Equation $(2)$, but now we are sampling from $z$'s defined over $q(z|x)$; i.e., we are being much smarter and more tractable about which $z$'s we are using to approximate $p(x|z)$.
 
+# Conclusion
 Let's take a step back and examine what we have done. We want to be able to approximate $p(x)$ as a sampling of many $p(x|z_i)$. To be smart about which $z_i$'s to pick so as to ensure that the $z_i$ maps to the corresponding $x_i$ with high probability, we also simultaneously learn a function $q(z|x)$ that maps $x$ to its corresponding latent variable $z$. If we sample from this $q(z|x)$ instead of picking any $z$ from the latent space, we can get better $z$'s that lead to good $p(x|z)$, and which in turn leads to estimating $p(x)$ more efficiently.
 
 
 
-## References
-1. https://arxiv.org/pdf/1606.05908.pdf
+[^1]: This is referred to as the "manifold hypothesis".
 
-## Footnotes
-[^1] This is referred to as the "manifold hypothesis".
+[^2]: Something that I was always confused about was what defines the sample space in cases like this. Clearly, $z$ is a vector whose elements can take any real value. So $z_i$ is a random variable with some distribution $p(z_i)$. In this setting, there is no underlying experiment with abstract events that must be explicitly mapped to real numbers. Because the random variable taking some value is the experiment in of itself, we can just think of all the outcomes in $\Omega$ as being the act of $z_i$ taking a value on the real line. So in essence, we may say $$\Omega = \{\omega : z_i = \omega, \omega \in \mathbb{R}\}.$$ Or even simpler, we can think of this setting as disposing of $\Omega$ entirely and placing the measure on $\mathbb{R}$, where the entire real line is of measure $1$.
 
-[^2] Something that I was always confused about was what defines the sample space in cases like this. Clearly, $z$ is a vector whose elements can take any real value. So $z_i$ is a random variable with some distribution $p(z_i)$. In this setting, there is no underlying experiment with abstract events that must be explicitly mapped to real numbers. Because the random variable taking some value is the experiment in of itself, we can just think of all the outcomes in $\Omega$ as being the act of $z_i$ taking a value on the real line. So in essence, we may say
-$$
-\Omega = \{\omega : z_i = \omega, \omega \in \mathbb{R}\}.
-$$
+[^3]: Actually, $p(x|z)$ will output high values for settings of $x$ which arise most probably from the given $z$, but as a way of thinking, viewing it as a function is sufficient.
 
-Or even simpler, we can think of this setting as disposing of $\Omega$ entirely and placing the measure on $\mathbb{R}$, where the entire real line is of measure $1$.
-
-[^3] Actually, $p(x|z)$ will output high values for settings of $x$ which arise most probably from the given $z$, but as a way of thinking, viewing it as a function is sufficient.
+[^4]: Alternatively, we can derive the lower bound from Jensen's inequality: $$\log p(x) = \log E_{z\sim q(z|x)} \left[\frac{p(x, z)}{q(z|x)}\right] \geq E_{z\sim q(z|x)} \left[\log \frac{p(x, z)}{q(z|x)}\right] = \mathcal{L}(x)$$
