@@ -13,29 +13,8 @@ $color-gray-border: lighten($color-base, 77%);
 $color-gray-bg: lighten($color-base, 79%);
 
 // Typographic
-@font-face {
-  font-family: lora;
-  src: url("C:\Users\alanq\Documents\web\src\assets\fonts\Lora-Regular.ttf");
-}
-@font-face {
-  font-family: lora;
-  src: url("C:\Users\alanq\Documents\web\src\assets\fonts\Lora-Bold.ttf");
-  font-weight: bold;
-}
-@font-face {
-  font-family: lora;
-  src: url("C:\Users\alanq\Documents\web\src\assets\fonts\Lora-Italic.ttf");
-  font-style: italic;
-}
-@font-face {
-  font-family: lora;
-  src: url("C:\Users\alanq\Documents\web\src\assets\fonts\Lora-BoldItalic.ttf");
-  font-weight: bold;
-  font-style: italic;
-}
-
-//$typographic-font-family: -apple-system, BlinkMacSystemFont, lora, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-$typographic-font-family: lora;
+$typographic-font-family: -apple-system, BlinkMacSystemFont, "Cambria Math", Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+$typographic-font-special: "Segoe UI", sans-serif;
 
 $typographic-root-font-size: 100;
 $typographic-base-font-size: 17px;

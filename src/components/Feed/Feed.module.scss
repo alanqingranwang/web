@@ -36,6 +36,7 @@
 
     &-meta {
       &-time {
+        font-family: $typographic-font-special;
         font-size: $typographic-small-font-size;
         color: $color-base;
         font-weight: 600;
@@ -48,6 +49,7 @@
 
       &-category {
         &-link {
+          font-family: $typographic-font-special;
           font-size: $typographic-small-font-size;
           color: $color-secondary;
           font-weight: 600;
