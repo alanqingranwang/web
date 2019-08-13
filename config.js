@@ -1,24 +1,24 @@
 'use strict';
 
 module.exports = {
-  url: 'https://alanqingranwang.com',
+  url: 'https://alanqwang.com',
   title: 'Blog by Alan Wang',
-  subtitle: 'Reseacher',
+  subtitle: 'Student',
   copyright: '© All rights reserved.',
   disqusShortname: '',
   postsPerPage: 4,
   googleAnalyticsId: 'UA-138644435-1',
   menu: [
     {
-      label: 'Articles',
+      label: 'Posts',
       path: '/'
     },
     {
-      label: 'About me',
+      label: 'About',
       path: '/pages/about'
     },
     {
-      label: 'Contact me',
+      label: 'Contact',
       path: '/pages/contacts'
     }
   ],

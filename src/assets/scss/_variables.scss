@@ -5,7 +5,7 @@
 // Colors
 $color-base: #222;
 $color-primary: #5D93FF;
-$color-secondary: #F7A046;
+$color-secondary: #C4E365;
 
 $color-white: #FFF;
 $color-gray: lighten($color-base, 40%);
@@ -13,11 +13,33 @@ $color-gray-border: lighten($color-base, 77%);
 $color-gray-bg: lighten($color-base, 79%);
 
 // Typographic
-$typographic-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+@font-face {
+  font-family: lora;
+  src: url("C:\Users\alanq\Documents\web\src\assets\fonts\Lora-Regular.ttf");
+}
+@font-face {
+  font-family: lora;
+  src: url("C:\Users\alanq\Documents\web\src\assets\fonts\Lora-Bold.ttf");
+  font-weight: bold;
+}
+@font-face {
+  font-family: lora;
+  src: url("C:\Users\alanq\Documents\web\src\assets\fonts\Lora-Italic.ttf");
+  font-style: italic;
+}
+@font-face {
+  font-family: lora;
+  src: url("C:\Users\alanq\Documents\web\src\assets\fonts\Lora-BoldItalic.ttf");
+  font-weight: bold;
+  font-style: italic;
+}
+
+//$typographic-font-family: -apple-system, BlinkMacSystemFont, lora, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+$typographic-font-family: lora;
 
 $typographic-root-font-size: 100;
-$typographic-base-font-size: 16px;
-$typographic-small-font-size: 14px;
+$typographic-base-font-size: 17px;
+$typographic-small-font-size: 15px;
 
 $typographic-base-line-height: 1.625;
 

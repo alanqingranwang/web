@@ -93,7 +93,7 @@ We can now talk about why variational autoencoders are named as they are:
 1. Notice that we have effectively replaced the posterior distribution over the latent space with a family of distributions $q_\phi$, the parameters $\phi$ of which we will optimize. This is traditionally done in a class of statistical methods called variational methods, and is the reason for the "variational" part of VAEs. 
 2. Additionally, our plan of attack is now to first pass our observed data $x$ through a "function" $q_\phi(z|x)$, which will give us a latent representation $z$ of the data, and then immediately pass this $z$ through another "function" $p_\theta(x|z)$ which we hope will learn to map that $z$ back to the original data $x$. Since we are simultaneously learning both $q_\phi$ and $p_\theta$ end-to-end, this structure is very similar to a traditional autoencoder!
 
-![vae-whole.png](/media/vae-whole.PNG)
+![VAE network](/media/vae-whole.jpg)
 
 There are still key differences between VAEs and traditional autoencoders. Autoencoders by themselves are not generative; they do not model probability distributions and are not driven to encode latent information from a Bayesian standpoint. While autoencoders do use neural networks to represent an encoder-decoder pair which is trained to encourage input-output reconstruction, the codes that an autoencoder learns are discrete in the latent space. That is, every code has a one-to-one mapping to its corresponding datum, and there is no guarantee that the autoencoder will produce something remotely plausible given a code that it has not been trained on.
 
