@@ -1,5 +1,5 @@
 ---
-title: The Fourier Transform as a Projection onto Subspaces
+title: The Fourier Transform as a Projection Onto Subspaces
 date: "2019-08-08T22:40:32.169Z"
 template: "post"
 draft: false
