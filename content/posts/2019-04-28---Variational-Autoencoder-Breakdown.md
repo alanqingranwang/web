@@ -67,7 +67,7 @@ From here on out, I will use the notation $p_\theta(x|z)$ to enforce the idea th
 # 2. How do we avoid having to integrate over the entire latent space?
 Now that we have defined how we are mapping the information, how do we go about solving Equation $(1)$? We could just sample a bunch of $z$'s from a standard normal and approximate $p(x)$ as:
 $$
-p(x) \approx \frac{1}{n}\sum_{i=1}^N p_\theta(x|z_i), \text{   where   } z_i \sim \mathcal{N}(0, I).\tag{2}
+p(x) \approx \frac{1}{N}\sum_{i=1}^N p_\theta(x|z_i), \text{   where   } z_i \sim \mathcal{N}(0, I).\tag{2}
 $$
 The problem with this method is that it takes a really long time to sample enough $z_i$'s to get a good approximation of $p(x)$. In fact, most $z_i$'s will result in $p_\theta(x|z_i)$ having low value, and thus contribute little to our approximation. This makes sense intuitively; typically, only a very small subset of settings of $z_i$ will actually map to $x$. For example, given an image of a handwritten digit, the digit it represents can only be one number out of ten. With this method, we will be wasting time calculating conditional probabilities given all ten settings of $z_i$, when in reality only one setting of $z_i$ will actually have high probability!
 
