@@ -61,7 +61,7 @@ Consider an LTI system characterized by an impulse response $h(t)$. A curious pr
 $$
 \mathcal{S}\left\{e^{j\omega t}\right\} = \int_{-\infty}^\infty e^{j\omega (t-\tau)} h(\tau) d\tau = \underbrace{e^{j\omega t}}_{x(t)}\underbrace{\int_{-\infty}^\infty e^{j\omega \tau} h(-\tau) d\tau}_{H(\omega)} = H(\omega) x(t).
 $$
-What this shows is that the output of an LTI system with a complex exponential input is, in fact, the same input multiplied by a scaling factor $H(\omega)$, which is in fact the Fourier transform of the impulse response $h(t)$.
+What this shows is that the output of an LTI system with a complex exponential input is, in fact, the same input multiplied by a scaling factor $H(\omega)$, which incidentally is the Fourier transform of the impulse response $h(t)$.
 
 Let's take this even further. Since all LTI systems are linear by definition, it follows that an input into a system which is a linear combination of scaled and shifted complex exponentials will have each term multiplied by the $H(\omega)$ from before. In particular,
 $$
