@@ -6,7 +6,7 @@ module.exports = {
   subtitle: 'Student',
   copyright: '© All rights reserved.',
   disqusShortname: '',
-  postsPerPage: 4,
+  postsPerPage: 10,
   googleAnalyticsId: 'UA-138644435-1',
   menu: [
     {
@@ -27,7 +27,7 @@ module.exports = {
     photo: '/photo.jpg',
     bio: 'Student',
     contacts: {
-      linkedin: '#',
+      linkedin: 'alan-wang-18072aa0',
       email: 'alanqingranwang@gmail.com',
       github: 'alanqingranwang',
       rss: '#'

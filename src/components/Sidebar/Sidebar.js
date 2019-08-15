@@ -52,9 +52,9 @@ export const Sidebar = (props: Props) => (
               photo
               bio
               contacts {
+                linkedin
                 github
                 email
-                rss
               }
             }
           }
