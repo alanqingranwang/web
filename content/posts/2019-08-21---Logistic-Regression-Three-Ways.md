@@ -1,6 +1,6 @@
 ---
 title: From Binary to Multiclass Classification 
-date: "2019-08-21T22:40:32.169Z"
+date: "2019-09-02T22:40:32.169Z"
 template: "post"
 draft: false
 slug: "/posts/from-binary-to-multiclass-classification/"
@@ -8,10 +8,9 @@ category: "Machine Learning"
 tags:
   - "Machine Learning"
   - "Math"
-description: "Notes on logistic regression as it pertains to probabilistic models and neural network formulation."
+description: "Notes on binary and multiclass classification from a probabilistic formulation."
 ---
 
-## Set Up and Notation
 Suppose we have a dataset $\mathcal{D} = \{(x_i, y_i)\}_{i=1}^N$, where $x_i \in \mathbb{R}^d$ is the features and $y_i \in \mathbb{Z}$ represents the class that $x_i$ is in. 
 
 # Binary Classification
@@ -93,7 +92,7 @@ y_i \sim \text{Cat}(\text{softmax}(Wx_i)).
 $$
 Now, $p(y_i | x_i)$ can be written
 $$
-p(y_i | x_i) = 
+p_W(y_i | x_i) = 
 \begin{cases}
     \text{softmax}(w_1^Tx_i), &y_i = 1 \\
     \text{softmax}(w_2^Tx_i), &y_i = 2 \\
@@ -103,15 +102,15 @@ p(y_i | x_i) =
 $$
 or even more concisely,
 $$
-p(y_i|x_i) = \prod_{k=1}^C \text{softmax}(w_k^T x_i) ^ {\mathbb{1}_{\{y_i=k\}}}
+p_W(y_i|x_i) = \prod_{k=1}^C \text{softmax}(w_k^T x_i) ^ {\mathbb{1}_{\{y_i=k\}}}
 $$
 where $\mathbb{1}_{\{y_i=k\}}$ is $1$ if $y_i=k$ and $0$ otherwise.
 
 Maximizing the log-likelihood leads us to
 $$
 \begin{aligned}
-\argmax_W p_w(y_1, ..., y_{N}|x_1, ..., x_{N}) &= \argmax_W \prod_{i=1}^{N} p_w(y_i | x_i) \\
-&= \argmin_W -\sum_{i=1}^{N} \log p_w(y_i | x_i) \\
+\argmax_W p_w(y_1, ..., y_{N}|x_1, ..., x_{N}) &= \argmax_W \prod_{i=1}^{N} p_W(y_i | x_i) \\
+&= \argmin_W -\sum_{i=1}^{N} \log p_W(y_i | x_i) \\
 &= \argmin_W -\sum_{i=1}^{N} \log \prod_{k=1}^C \text{softmax}(w_k^T x_i) ^ {\mathbb{1}_{\{y_i=k\}}} \\
 &= \argmin_W -\sum_{i=1}^{N} \sum_{k=1}^C \log \text{softmax}(w_k^T x_i) ^ {\mathbb{1}_{\{y_i=k\}}} \\
 &= \argmin_W -\sum_{i=1}^{N} \sum_{k=1}^C {\mathbb{1}_{\{y_i=k\}}} \log \text{softmax}(w_k^T x_i) \\
