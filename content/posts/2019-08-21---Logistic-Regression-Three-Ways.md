@@ -1,20 +1,21 @@
 ---
-title: From Binary to Multiclass Classification 
+title: Probabilistic Models for Binary and Multiclass Classification 
 date: "2019-09-02T22:40:32.169Z"
 template: "post"
 draft: false
-slug: "/posts/from-binary-to-multiclass-classification/"
+slug: "/posts/probabilistic-models-for-binary-and-multiclass-classification/"
 category: "Machine Learning"
 tags:
   - "Machine Learning"
   - "Math"
 description: "Notes on binary and multiclass classification from a probabilistic formulation."
 ---
+How do we approach classification from a probabilistic standpoint?
 
-Suppose we have a dataset $\mathcal{D} = \{(x_i, y_i)\}_{i=1}^N$, where $x_i \in \mathbb{R}^d$ is the features and $y_i \in \mathbb{Z}$ represents the class that $x_i$ is in. 
+Suppose we have a dataset $\mathcal{D} = \{(x_i, y_i)\}_{i=1}^N$, where $x_i \in \mathbb{R}^d$ is the features and $y_i \in \mathbb{Z}$ represents the class that $x_i$ is in. Invariably, we will want to define a distribution for $p(y_i | x_i)$, figure out the proper parameters that we can tune for $p(y_i|x_i)$, and perform maximum likelihood estimation on those parameters. The question is how to represent our data and labels in the form of such a distribution, and then define the parameters such that maximum likelihood can be performed.
 
 # Binary Classification
-How can we represent our data and labels in the form of a probability distribution $p(y_i|x_i)$, on which we can then perform maximum likelihood estimation? I will present the case of binary classification by defining $y_i \in\{0, 1\}$, but note that there are other definitions that lead to different distributions (see my post on [general supervised learning](alanqwang.com/posts/general-framework-for-supervised-learning/#logistic-regression) for another example).
+I will present the case of binary classification by defining $y_i \in\{0, 1\}$, but note that there are other definitions that lead to different distributions (see my post on [general supervised learning](alanqwang.com/posts/general-framework-for-supervised-learning/#logistic-regression) for another example).
 
 In this setting, it is very natural to model the conditional as a Bernoulli distribution, which has a single tunable parameter $p$. Formally, if a random variable $z$ has a Bernoulli distribution, then $z\sim \text{Ber}(p)$ and its pmf is
 $$
