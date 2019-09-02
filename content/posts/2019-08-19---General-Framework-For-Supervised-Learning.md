@@ -2,7 +2,7 @@
 title: A General Framework for Classification Learning
 date: "2019-08-19T22:40:32.169Z"
 template: "post"
-draft: false
+draft: true
 slug: "/posts/general-framework-for-supervised-learning/"
 category: "Machine Learning"
 tags:
