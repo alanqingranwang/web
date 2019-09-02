@@ -9,7 +9,7 @@ tags:
   - "Math"
   - "Probability"
   - "Machine Learning"
-description: "An analysis and comparison of linear regression through a direct, probabilistic, and a least squares sense."
+description: "An analysis and comparison of linear regression through a risk minimization, probabilistic, and a least-squares lens."
 ---
 
 ![lin_reg.jpg](/media/lin_reg.jpg)
@@ -39,7 +39,7 @@ where $\epsilon \in \mathbb{R}^{N \times 1}$ is a vector of i.i.d $\epsilon_i$'s
 
 How do we find the parameters $w$ that fit the dataset most closely? This post discusses 3 approaches and attempts to draw comparisons between them.
 
-## 1. Direct
+## 1. Empirical Risk Minimization
 The simplest and most intuitive formulation is one of minimizing the error [^2] between the observations and our fitted line. This error is precisely
 $$
 \epsilon = y - Xw.

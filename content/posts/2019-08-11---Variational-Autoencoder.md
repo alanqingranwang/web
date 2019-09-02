@@ -163,6 +163,21 @@ $$
 
 Additionally, note that this is the same strategy we were going to take originally in Equation $(2)$, but now we are sampling from $z$'s defined over $q(z|x)$; i.e., we are being much smarter and more tractable about which $z$'s we are using to approximate $p(x|z)$.
 
+To find an estimate over many different $x$'s, we additionally add an expectation term over $p(x)$, so that the final objective function is
+$$
+\argmax E_{x\sim p(x)}\big[E_{z \sim q_\phi(z|x)}[\log p_\theta(x|z)] - D_{KL}(q_\phi(z|x) || p(z))\big]
+$$
+
+## Gradient and Reparameterization Trick
+In this form, taking the gradient is simple because we can push it into the expectations and simply take the gradient of the inside expression:
+$$
+\nabla_{\theta, \phi}\big(\log p_\theta(x|z) - D_{KL}(q_\phi(z|x) || p(z)\big)
+$$
+You may have noticed that this expression no longer has a dependence on $\phi$ in the reconstruction term, which we need in order to properly learn. In practice, in order to learn the parameters $\mu$ and $\Sigma$ of the encoder $q_\phi$, we apply a reparameterization trick that injects these learnable terms into the objective function: 
+$$
+\argmax E_{x\sim p(x)}\big[E_{z \sim \epsilon \sim \mathcal{N}(0, I)}[\log p_\theta(x|z = \mu(x) + \epsilon\sqrt{\sigma(x)})] - D_{KL}(q_\phi(z|x) || p(z))\big].
+$$
+
 # Conclusion
 Let's take a step back and examine what we have done. We want to be able to approximate $p(x)$ as a sampling of many $p(x|z_i)$. To be smart about which $z_i$'s to pick so as to ensure that the $z_i$ maps to the corresponding $x_i$ with high probability, we also simultaneously learn a function $q(z|x)$ that maps $x$ to its corresponding latent variable $z$. If we sample from this $q(z|x)$ instead of picking any $z$ from the latent space, we can get better $z$'s that lead to good $p(x|z)$, and which in turn leads to estimating $p(x)$ more efficiently.
 
