@@ -11,7 +11,7 @@ tags:
 description: "An expression encompassing all supervised classification learning models."
 ---
 
-Full credit to Alexander Schwing and Matus Telgarsky, from Spring 2017 CS 446 lectures.
+Full credit to Alexander Schwing and Matus Telgarsky, from Spring 2017 UIUC CS 446 lectures.
 
 In this post, I will show that the following objective is general for many supervised classification learning models, including linear regression, logistic regression, support vector machines (SVMs), multiclass classification, and neural networks. 
 
@@ -34,7 +34,6 @@ $$
 This is a specific case of Equation $(1)$ 
 
 # Logistic Regression
-## 2. $y \in \{-1, 1\}$
 $$
 \begin{aligned}
 &p_w(y = 1 | x) = \frac{1}{1 + \exp (-w^T x)} \\
@@ -56,6 +55,4 @@ $$
 \end{aligned}
 $$
 
-This expression, while less intuitive, is useful when viewing logistic regression in the context of [the general framework for supervised learning](alanqwang.com/posts/general-framework-for-supervised-learning/).
-
-
+# Support Vector Machines
