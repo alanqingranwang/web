@@ -1,6 +1,6 @@
 ---
 title: Sampling, Reconstruction, and the Nyquist Rate
-date: "2019-09-04T22:40:32.169Z"
+date: "2019-09-09T22:40:32.169Z"
 template: "post"
 draft: false
 slug: "/posts/digital-signals/"
