@@ -1,14 +1,14 @@
 ---
-title: Undersampling in the Frequency Domain
+title: Foundations of Magnetic Resonance Imaging
 date: "2019-09-09T22:40:32.169Z"
 template: "post"
-draft: false
+draft: true
 slug: "/posts/mr-imaging/"
 category: "Signal Processing"
 tags:
   - "Signal Processing"
   - "Math"
-description: "Applications in compressed sensing."
+description: "Connecting the physics of nuclear magnetic resonance with MRI."
 ---
 
 MR imaging (MRI) is based on the theory of nuclear magnetic resonance (NMR). This post focuses on the imaging portion of MR which concerns itself with data acquisition and reconstruction, largely ignoring the physical underpinnings NMR (although a brief overview is required for understanding).

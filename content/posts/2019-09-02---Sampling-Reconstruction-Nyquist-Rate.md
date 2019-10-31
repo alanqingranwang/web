@@ -21,7 +21,7 @@ For example, given $x_a(t) = e^{j\Omega_0 t}$, the result of sampling would be
 $$
 x[n] = e^{j\Omega_0 Tn} = e^{j\omega_0 n},
 $$
-where we defined a new freqency variable $\omega_0 := \Omega_0 T$.
+where we defined a new frequency variable $\omega_0 := \Omega_0 T$.
 
 ## Sampling in the Frequency Domain
 Suppose $x_a(t)$ has Fourier transform $X_a(\Omega)$ and $x[n] = x_a(nT)$ has DTFT $X_d(\omega)$. The transforms are then related by the following equation:
