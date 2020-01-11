@@ -32,7 +32,7 @@ $$
 p_w(y_i | x_i) = \sigma(w^T x_i)^{y_i} (1-\sigma(w^T x_i))^{1-y_i}.
 $$
 
-Essentially what we have done is to reparameterize our distribution to introduce a larger parameter set $w$, which now weights all of the elements in our feature $x_i$ similar to how is normally done in linear regression. However, to ensure that the value is still a valid probability, we "link" the linear intermediary with the sigmoid function $\sigma$ to squash the values back into the range $[0, 1]$.
+Essentially, what we have done is to reparameterize our distribution to introduce a larger parameter set $w$, which now weights all of the elements in our feature $x_i$ (similar to how is normally done in linear regression). However, to ensure that the value is still a valid probability, we "link" the linear intermediary with the sigmoid function $\sigma$ to squash the values back into the range $[0, 1]$.
 
 To find the optimal parameters, we can maximize the likelihood of the distribution with respect to the parameters $w$:
 $$
@@ -51,7 +51,7 @@ How do we extend this formulation to cases where we have more than two classes f
 ## 1. We can't use a Bernoulli distribution anymore.
 Clearly, we can no longer use a Bernoulli distribution to model $p(y_i|x_i)$ because $y_i$ is no longer binary. Instead, we can generalize the Bernoulli distribution to the *categorical* distribution, denoted $\text{Cat}(\pi)$ where $\pi \in [0,1]^C$ and $\pi_k$ represents the probability of class $k$. Formally, if we suppose $z \sim \text{Cat}(\pi)$, then its pmf is
 $$
-p(z) = \begin{cases} \pi_1, &z = 1 \\ \pi_2, &z=2 \\ ... \\ \pi_C, &z=C\end{cases}
+p(z) = \begin{cases} \pi_1, &z = 1 \\ \pi_2, &z=2 \\ ... \\ \pi_C, &z=C.\end{cases}
 $$
 
 ## 2. We can't use $\sigma$ anymore.
@@ -67,7 +67,7 @@ $$
 where $z$ is a vector of real values.
 
 ## 3. We can't use a single vector of parameters $w$ anymore.
-A third and final problem is that we can no longer use the same $w$ vector of weights to predict across all $C$ classes. Whereas in the binary case, we could get away with one vector of weights to weight each element of the feature $x_i$, now we need to augment our set of parameters so that we have $C$ different weight vectors $w$. For a specific realization $y_i = k$,  we can model $y$ as follows:
+A third and final problem is that we can no longer use the same vector of weights $w$ to predict across all $C$ classes. Whereas in the binary case, we could get away with one vector of weights to weight each element of the feature $x_i$, now we need to augment our set of parameters so that we have $C$ different weight vectors $w$. For a specific realization $y_i = k$,  we can model $y$ as follows:
 $$
 p(y_i = k|x_i) = \text{softmax}(w_k^T x_i) = \frac{\exp(w_k^Tx_i)}{\sum_{j=1}^C \exp(w_j^Tx_i)},
 $$

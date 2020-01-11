@@ -3,7 +3,7 @@ title: Sampling, Reconstruction, and the Nyquist Rate
 date: "2019-09-09T22:40:32.169Z"
 template: "post"
 draft: false
-slug: "/posts/digital-signals/"
+slug: "/posts/sampling-reconstruction-and-the-nyquist-rate/"
 category: "Signal Processing"
 tags:
   - "Signal Processing"
@@ -26,19 +26,24 @@ where we defined a new frequency variable $\omega_0 := \Omega_0 T$.
 ## Sampling in the Frequency Domain
 Suppose $x_a(t)$ has Fourier transform $X_a(\Omega)$ and $x[n] = x_a(nT)$ has DTFT $X_d(\omega)$. The transforms are then related by the following equation:
 $$
-X_d(\omega) = \frac{1}{T}\sum_{k=-\infty}^\infty X_a\left(\frac{\omega - 2\pi k}{T}\right)
+X_d(\omega) = \frac{1}{T}\sum_{k=-\infty}^\infty X_a\left(\frac{\omega - 2\pi k}{T}\right) \tag{1}
 $$
-What this equation tells us is that the DTFT of the sampled signal has the same shape as the CTFT of the original, analog signal, scaled by a factor $\frac{1}{T}$ and *replicated* along the $\Omega$ axis at intervals of $2\pi$. The replication arises from the fact that some $\omega$ value will result in a value of $X_a\left(\frac{\omega-2\pi k }{T}\right)$ having some non-zero value. Since we are summing over all $k$, the resulting signal will be the superposition of all replicas which repeat every $2\pi$.
+We can prove this by expressing $x[n]$ in the form of a DTFT:
+$$
+\begin{aligned}
+x[n] &= x(nT) \\
+ &= \frac{1}{2\pi} \int_\mathbb{R} X_a(\Omega) e^{j\Omega (nT)} d\Omega \\ 
+ &= \frac{1}{2\pi} \int_\mathbb{R} X_a\left(\frac{\omega}{T}\right) e^{j\frac{\omega}{T} (nT)} d\frac{\omega}{T} \\ 
+ &= \frac{1}{2\pi T} \int_\mathbb{R} X_a\left(\frac{\omega}{T}\right) e^{j\omega n} d\omega \\ 
+ &= \frac{1}{2\pi T} \sum_{k=-\infty}^\infty \int_0^{2\pi} X_a\left(\frac{\omega-2\pi k}{T}\right) e^{j\omega n} d\omega \\ 
+ &= \frac{1}{2\pi} \int_0^{2\pi} \left[ \frac{1}{T}\sum_{k=-\infty}^\infty X_a\left(\frac{\omega-2\pi k}{T}\right) \right] e^{j\omega n} d\omega \\ 
+ &:= \frac{1}{2\pi} \int_0^{2\pi} X_d(\omega) e^{j\omega n} d\omega \\ 
+\end{aligned}
+$$
 
-For example, if $T=1$ and $X_a(\Omega)$ has non-zero value in $[-\pi, \pi]$, then for $k=0$, 
-$$
-X_d(\omega) = X_a(\Omega).
-$$
-So $X_d(\omega)$ will take non-zero value over $[-\pi, \pi]$. But for $k=1$, 
-$$
-X_d(\omega) = X_a(\Omega-2\pi),
-$$
-which means $X_d(\omega)$ will take non-zero value over $[-\pi - 2\pi, \pi - 2\pi] = [-3\pi, -\pi]$. For all $k\in \mathbb{Z}$, this will "fill in" values for $X_d(\omega)$ over all of $\mathbb{R}$, since we sum all the replicas together.
+What $(1)$ tells us is that the DTFT of the sampled signal has the same shape as the CTFT of the original, analog signal, scaled by a factor $\frac{1}{T}$ and *replicated* along the $\omega$ axis at intervals of $2\pi$. The replication arises from the fact that some $\omega$ value will result in a value of $X_a\left(\frac{\omega-2\pi k }{T}\right)$ having some non-zero value. Since we are summing over all $k$, the resulting signal will be the superposition of all replicas which repeat every $2\pi$.
+
+Why does the act of sampling in the time domain result in periodicity in the frequency domain? In a simplified sense, it is the price we pay for the continuous information that we are losing during the sampling process. I like to think of this as analogous to the reverse case: for continuous periodic signals, we know that the frequency domain consists of discrete Fourier coefficients. In that setting, discretization in one domain corresponds to periodicity in the other domain. By the same token, by discretizing the time domain, periodicity arises in the frequency domain (the DFT is another example of discretization in the *frequency* domain causing periodicity and discretization in the *time* domain).  
 
 ## Reconstruction and Aliasing
 If the DTFT $X_d(\omega)$ is bandlimited such that $X_d(\omega)$ takes non-zero value only over $\omega \in [-\pi, \pi]$, then it is possible to reconstruct the original signal from its samples. Since the shape of the CTFT is retained in the DTFT, reconstructing the original, analog signal is simple: apply a low-pass filter with cutoff $\omega_L = \omega_{max}$, where $\omega_{max}$ is the maximum frequency of the discrete signal, and additionally rescale by a factor $T$. This ideal digital-to-analog filter $G(\Omega)$ would look like the following in the frequency domain:

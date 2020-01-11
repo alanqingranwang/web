@@ -78,7 +78,10 @@ The problem with this method is that it takes a really long time to sample enoug
 
 Here's an idea: just as we are using a "function" $p_\theta(x|z)$ to map observed data to a given latent representation, why don't we similarly use another "function" $p(z|x)$ to give us the latent representation that maps to the observed data of interest? The space of latent variables that are likely under this function $q$ would definitely be smaller than the entire latent space, so it would make the calculations a lot more tractable. In this way, we could just sample $z\sim p(z|x)$ to get $z$'s that are most likely to arise from our given $x$, and then use our known $p_\theta(x|z)$ to generate new samples just as before:
 $$
-p(x) \approx \frac{1}{N}\sum_{i=1}^N p_\theta(x|z_i), \text{   where   } z_i \sim p(z|x).
+p(x) \approx \frac{1}{N}\sum_{i=1}^N p_\theta(x|z_i), 
+$$
+$$
+\text{   where   } z_i \sim p(z|x).
 $$
 
 This, however, brings up several different issues. Firstly, what is $p(z|x)$? Bayes' rule says

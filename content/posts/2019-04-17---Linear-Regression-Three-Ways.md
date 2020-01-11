@@ -14,7 +14,7 @@ description: "An analysis and comparison of linear regression through a risk min
 
 ![lin_reg.jpg](/media/lin_reg.jpg)
 
-Linear regression has found many useful applications from all sorts of subdisciplines including machine learning and statistics. Its popularity and ubiquity can be attributed to the fact that many phenomena have mutually linear dependencies and correlations, and the fact that fitting linear models requires a relatively small number of parameters. 
+Linear regression (traditionally referred to as least squares) has found many useful applications from all sorts of subdisciplines including machine learning and statistics. Its popularity and ubiquity can be attributed to the fact that many phenomena have mutually linear dependencies and correlations, and the fact that fitting linear models requires a relatively small number of parameters. 
 
 The topic of linear regression is typically taught through the lens of least squares. In this post, I will offer two separate approaches to solving linear regression and argue about its intuition.
 
@@ -115,7 +115,7 @@ $$
 
 So, in the end, the expression we are minimizing is identical to $(1)$ in the previous section!
 
-## 3. Least Squares
+## 3. Linear Algebra
 Let's go back to our original relation in matrix form:
 $$y = Xw.$$ 
 
