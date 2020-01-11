@@ -2,7 +2,7 @@
 title: Implemention of Magnetic Resonance Imaging
 date: "2019-11-04T22:40:32.169Z"
 template: "post"
-draft: false
+draft: true
 slug: "/posts/mri-implementation/"
 category: "Signal Processing"
 tags:

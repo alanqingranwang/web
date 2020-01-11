@@ -1,6 +1,6 @@
 ---
 title: L1 Loss and Sparse Solutions
-date: "2019-01-11T22:40:32.169Z"
+date: "2020-01-11T22:40:32.169Z"
 template: "post"
 draft: false
 slug: "/posts/l1-loss-and-sparse-solutions/"
@@ -10,23 +10,10 @@ tags:
 description: "An overview of overdetermined and underdetermined systems, the role of regularization, and applications to compressed sensing."
 ---
 ## Regularization 
-Regularization is what enables the adding of constraints, and makes finding solutions to underdetermined systems possible. Let's augment our optimization problem from $(1)$ by adding an additional regularization term:
+In a [previous post](https://www.alanqwang.com/posts/underdetermined-systems-and-regularization/), I discussed the concept of regularization in the underdetermined, least squares model:
 $$
 x^* = \argmin_x ||Ax - y||_2^2 + \lambda \mathcal{R}(x). 
 $$
-How does adding this term affect our solutions? One way to view it is as adding an additional cost term. Values of $x$ that cause high values of $\mathcal{R}(x)$ will be penalized, and therefore won't be feasible solutions in this setting. For example, if we define $\mathcal{R}(x) = ||x||_2^2$, then we will be penalizing answers with high $L2$ norms. So, in a sense, a regularization allows us to refine the space of feasible solutions. There is an "art" to designing these regularization functions, because one must have a sense a priori of what to penalize; that is, it is necessary to have an idea of what your solutions *should* look like, even before one obtains the solution!
-
-This ties in nicely to another common interpretation of regularization, and that is as a prior distribution in a Bayesian setting. It can be seen that our model is actually a MAP estimate:
-$$
-\begin{aligned}
-&\argmin_x ||Ax - y||_2^2 + \lambda \mathcal{R}(x) \\
-&= \argmin_x e^{||Ax - y||_2^2 + \lambda \mathcal{R}(x)} \\
-&= \argmax_x -e^{||Ax - y||_2^2} e^{\lambda \mathcal{R}(x)} \\
-&\propto \argmax_x p(y|x)p(x) 
-\end{aligned}
-$$
-
-Viewed this way, our regularization function represents a distribution from which we assume that our solution $x$ is sampled.
 
 Here are two common regularization functions which are so common that they have special names:
 ### Ridge Regression

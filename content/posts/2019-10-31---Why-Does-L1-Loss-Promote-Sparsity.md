@@ -1,10 +1,10 @@
 ---
 title: Underdetermined Systems and Regularization
-date: "2019-01-10T22:40:32.169Z"
+date: "2020-01-10T22:40:32.169Z"
 template: "post"
 draft: false
 slug: "/posts/underdetermined-systems-and-regularization/"
-category: "signal processing"
+category: "Signal processing"
 tags:
   - "Signal Processing"
 description: "An overview of overdetermined and underdetermined systems, the role of regularization, and applications to compressed sensing."
